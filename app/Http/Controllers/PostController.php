@@ -20,8 +20,9 @@ class PostController extends Controller
     }
 
     public function index()
-    {  
-        return view('list', ['posts' => Post::all()]);
+    {
+        $posts = Post::with('user')->get();
+        return view('list', ['posts' => $posts]);
     }
 
     public function createPost()
