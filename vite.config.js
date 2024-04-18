@@ -1,16 +1,37 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-// import vue from '@vitejs/plugin-vue';
+import autoprefixer from 'autoprefixer';
+import tailwindcss from 'tailwindcss';
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: [
-                'resources/sass/app.scss',
-                'resources/js/app.js',
-            ],
-            refresh: true,
+            input: 'resources/js/app.js', // Specify the input JavaScript file
         }),
     ],
+    css: {
+        postcss: {
+            plugins: [
+                tailwindcss,
+                autoprefixer,
+            ],
+        },
+    },
+    build: {
+        outDir: 'public/build',
+        assetsInlineLimit: 0,
+        manifest: true,
+        rollupOptions: {
+            output: {
+                entryFileNames: 'assets/[name].js',
+                chunkFileNames: 'assets/[name]-[hash].js',
+                assetFileNames: ({ name }) => (name.endsWith('.css') ? 'assets/[name].css' : 'assets/[name]-[hash][extname]'),
+            },
+        },
+        cssCodeSplit: {
+            filename: 'assets/app.css',
 
+        },    },
 });
+
+

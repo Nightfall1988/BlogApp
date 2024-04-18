@@ -6,7 +6,10 @@ use App\Http\Requests\CreatePostRequest;
 use App\Http\Services\CommentService;
 use App\Http\Services\PostService;
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\User;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -37,7 +40,25 @@ class PostController extends Controller
     }
 
     public function store(CreatePostRequest $request)
-    {  
+    {   
+        // NEEDS VALIDATION
         $this->postService->store($request);
     }
+
+    public function saveComment(Request $request) {
+        // NEEDS VALIDATION
+        $user = User::where('name', $request->userName)->first();
+        $comment = new Comment;
+        $comment->post_id = $request->postId;
+        $comment->user_id = $user->id;
+        $comment->body = $request->comment;
+        $comment->save();
+        
+    }
+
+    public function edit($id) {
+        $post = Post::where('id', $id)->first();
+        return view('add-post', ['post' => $post]);
+    }
+
 }
