@@ -39,8 +39,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="font-bold">{{ $post->title }}</p>
+                                    <p class="font-bold text-xl">{{ $post->title }}</p>
                                 </div>
+                                <br>
                                 <div>
                                     <p>{{ $post->content }}</p>
                                 </div>
