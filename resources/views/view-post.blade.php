@@ -28,9 +28,16 @@
                         <div class="p-4">
                             <input id="postId" type="hidden" value="{{ $post->id }}"></input>
                             <div id="post_{{ $post->id }}" class="mb-4">
-                                <p>Author: <b>{{ $post->user->name }}</b></p>
-                                <input id="userName" type="hidden" value="{{ $post->user->name }}"></input>
-                                <br>
+                                <div id="mid-section" class="flex row">
+                                    <div>
+                                        <p>Author: <b>{{ $post->user->name }}</b></p>
+                                        <input id="userName" type="hidden" value="{{ $post->user->name }}"></input>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <a href="/create-post" class="bg-blue-500 text-white px-4 py-2 rounded-md ml-2">Create a new post</a>
+                                    </div>
+                                </div>
                                 <div>
                                     <p class="font-bold">{{ $post->title }}</p>
                                 </div>
