@@ -35,16 +35,27 @@ class PostController extends Controller
 
     public function showPost($postId)
     {  
+        $categories = Category::all();
         $post = Post::with('comments', 'categories')->findOrFail($postId);
-        return view('view-post', ['post' => $post]);
+        return view('view-post', ['post' => $post, 'categories' => $categories]);
     }
 
     public function store(CreatePostRequest $request)
     {   
         // NEEDS VALIDATION
         $this->postService->store($request);
+        return redirect()->route('list');
     }
 
+    public function update(CreatePostRequest $request) 
+    {
+        $post = Post::with('categories')->findOrFail($request->postId);
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->save();
+        return  redirect('view-post/' . $request->postId);
+
+    }
     public function saveComment(Request $request) {
         // NEEDS VALIDATION
         $user = User::where('name', $request->userName)->first();
@@ -57,8 +68,19 @@ class PostController extends Controller
     }
 
     public function edit($id) {
+        $categories = Category::all();
         $post = Post::where('id', $id)->first();
-        return view('add-post', ['post' => $post]);
+        return view('add-post', ['post' => $post, 'categories' => $categories]);
+    }
+
+
+    public function delete($id) {
+        
+        if (Post::destroy($id)) {
+            return 1;
+        } else {
+            return 'error';
+        }
     }
 
 }

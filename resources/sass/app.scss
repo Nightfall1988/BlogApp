@@ -12,7 +12,27 @@
 body {
     font-family: Arial, sans-serif;
 }
-
+/* Tag-like appearance */
+.form-multiselect {
+    background-color: #edf2f7;
+  }
+  
+  .form-multiselect:focus {
+    border-color: #667eea;
+    background-color: #fff;
+  }
+  
+  .form-multiselect option {
+    padding: 0.5rem 1rem;
+    line-height: 1.25rem;
+  }
+  
+  /* Tag-like appearance */
+  .form-multiselect option:checked {
+    background-color: #667eea;
+    color: #ffffff;
+  }
+  
 // .container {
 //     margin: 20px auto;
 //     background-color: #fff;

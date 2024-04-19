@@ -22,6 +22,7 @@ class CreatePostRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'postId' => 'nullable|integer',
         ];
     }
 }

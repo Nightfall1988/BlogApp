@@ -8,7 +8,7 @@
 
     <!-- Tailwind CSS -->
     <link href="{{ asset('build/assets/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -26,13 +26,10 @@
                         <a href="{{ route('list') }}" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
                             {{ __('BlogApp') }}
                         </a>
-                        <!-- Add more navigation links as needed -->
                     </div>
                 </div>
 
-                <!-- Right Side Of Navbar -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
-                    <!-- Authentication Links -->
                     @guest
                         <a href="{{ route('login') }}" class="text-gray-500 hover:text-gray-700">
                             {{ __('Login') }}

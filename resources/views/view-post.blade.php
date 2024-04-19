@@ -15,18 +15,17 @@
                                     <li class="mb-1 mr-2"> &#x2022; {{ $category->name }}</li>
                                 @endforeach
                             </ul>
-                        </div>
+                        </div>                        
                         @if ($post->user->id == Auth::user()->id )
-                        <div class="ml-auto flex row">
-                            <a href="/edit-post/{{ $post->id }}"><i class="fas fa-pen-to-square"></i>Edit</a>
-                            <a href="/delete-post/{{ $post->id }}"><i class="fas fa-trash"></i>Delete</a>
-                        </div>
+                        <div class="ml-auto flex row items-center">
+                            <a href="/edit-post/{{ $post->id }}"><i title="Edit post" class="fas fa-edit fa-lg"></i> </a>&nbsp;&nbsp;
+                            <button type="button" id='delete-bttn'><i title="Delete post" class="fas fa-trash-alt fa-lg"></i> </button>
+                        </div>                        
                         @endif
-
                     </div>
                     <div class="border-t border-gray-200 mt-4">
                         <div class="p-4">
-                            <input id="postId" type="hidden" value="{{ $post->id }}"></input>
+                            <input id="postId" type="hidden" name='postId' value="{{ $post->id }}"></input>
                             <div id="post_{{ $post->id }}" class="mb-4">
                                 <div id="mid-section" class="flex row">
                                     <div>

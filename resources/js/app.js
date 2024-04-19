@@ -1,15 +1,6 @@
-// import './bootstrap';
 import axios from 'axios';
-// import { createApp } from 'vue';
 
-// const app = createApp({});
-
-// import ExampleComponent from './components/ExampleComponent.vue';
-// app.component('example-component', ExampleComponent);
-
-// app.mount('#app');
 import 'tailwindcss/tailwind.css'
-// import axios from 'axios';
 
     document.addEventListener('DOMContentLoaded', function() {
         const toggleCommentsBtn = document.getElementById('toggle-comments');
@@ -26,16 +17,19 @@ import 'tailwindcss/tailwind.css'
         });
     });
 
-    const button = document.getElementById("submit-bttn");
-    button.addEventListener("click", buttonClick, false);
+    const buttonSubmit = document.getElementById("submit-bttn");
+    buttonSubmit.addEventListener("click", buttonClick, false);
 
+    const buttonDelete = document.getElementById("delete-bttn");
+    buttonDelete.addEventListener("click", deletePost, false);
+    
     function buttonClick(event) {
         event.preventDefault();
         let comment = document.getElementById("comment").value;
         let postId = document.getElementById("postId").value;
         let userName = document.getElementById("userName").value;
-
         saveComment(comment, userName, postId)
+        window.location.reload()
     }
 
 async function saveComment(comment, userName, postId) {
@@ -48,3 +42,20 @@ async function saveComment(comment, userName, postId) {
                     console.log(error);
                 });
             }
+
+
+async function deletePost(event) {
+    event.preventDefault();
+    let postId = document.getElementById("postId").value;
+    if (window.confirm("Do you really want to delete this post?")) {
+        try {
+            const response = await axios.post('/delete-post/' + postId);
+            if (response.data == 1) {
+                alert('Post deleted!');
+                window.location.href = '/'
+            }
+        } catch (error) {
+            console.error(error);
+        }
+      }
+}

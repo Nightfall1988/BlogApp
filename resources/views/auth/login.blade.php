@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-center">
+<div class="flex justify-center w-4/6">
     <div class="container mx-auto">
-        <div class="flex justify-center p-7">
-            <div class="w-full max-w-5xl rounded p-8"> <!-- Increased max-w-lg -->
+        <div class="flex justify-center p-7 ">
+            <div class="w-full mx-auto rounded p-8"> <!-- Increased max-w-lg -->
                 <div class="shadow-lg mb-4 p-8 bg-sky-200 rounded">
                     <h2 class="text-2xl font-bold mb-4">{{ __('Login') }}</h2>
 

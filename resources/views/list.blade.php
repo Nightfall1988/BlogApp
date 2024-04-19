@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="lg:w-12/12 xl:w-12/12">
                 <div class="p-6">
                     <table class="w-full text-lg">
                         <thead>
