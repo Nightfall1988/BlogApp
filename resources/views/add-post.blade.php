@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto">
     <div class="flex justify-center">
-        <div class="w-full lg:w-10/12 xl:w-7/12">
+        <div class="w-full">
             <div class="bg-white shadow-md rounded-lg p-6">
                 <div class="text-2xl font-semibold mb-6">{{ isset($post) ? __('Edit Blog Post') : __('Create Blog Post') }}</div>
 

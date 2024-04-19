@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $categList = ['Movies', 'Politics', 'Business', 'Sports', 'Abroad'];
+        $categList = ['Movies', 'Politics', 'Business', 'Sports', 'Abroad', 'Health'];
         for ($i=0; $i<sizeof($categList); $i++) {
             DB::table('categories')->insert([
                 'name' => $categList[$i],
