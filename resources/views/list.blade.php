@@ -6,6 +6,9 @@
         <div class="col-md-8">
             <div class="lg:w-12/12 xl:w-12/12">
                 <div class="p-6">
+                    <div class="ml-auto">
+                        <a href="/create-post" class="bg-blue-500 text-white px-4 py-2 rounded-md ml-2">Create a new post</a>
+                    </div>
                     <table class="w-full text-lg">
                         <thead>
                             <tr>
@@ -36,12 +39,12 @@
 @endsection
 <style>
     th:nth-child(4), /* Created At column */
-td:nth-child(4),
-th:nth-child(3), /* Author column */
-td:nth-child(3) {
-    width: 181px; /* Adjust as needed */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Display ellipsis for overflow text */
+    td:nth-child(4),
+    th:nth-child(3), /* Author column */
+    td:nth-child(3) {
+        width: 181px; /* Adjust as needed */
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Display ellipsis for overflow text */
 }
     </style>

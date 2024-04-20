@@ -56,27 +56,35 @@
                                 <button id="submit-bttn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md ml-2">Submit Comment</button>
                             </div>
                             <div>
-                                <div class="flex items-center">
-                                    <h2 class="text-lg font-semibold mb-2">Comments</h2>
-                                    <button id="toggle-comments" type="button" class="text-blue-500 font-semibold mb-2 focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block transform transition-transform" viewBox="0 0 20 20" fill="currentColor">
-                                            <path x-show="!showComments" class="hidden" fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l5 5a1 1 0 01.293.707V14a1 1 0 01-1 1H6a1 1 0 01-1-1V9.414a1 1 0 01.293-.707l5-5A1 1 0 0110 3zm-1 4.414L6.414 9H9a1 1 0 110 2H5v3a1 1 0 001 1h8a1 1 0 001-1v-3h-3a1 1 0 110-2h2.586L11 7.414a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            <path x-show="showComments" fill-rule="evenodd" d="M4.293 7.293a1 1 0 011.414 0L10 11.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                
-                                <div id="comments-list" class="invisible flex flex-col">
-                                    @foreach ($post->comments as $comment)
-                                        <div class="p-2 border-solid border-2 rounded border-sky-300">
-                                            <ul>
-                                                <li>By: <b>{{ $comment->user->name }}</b></li>
-                                                <li>{{ $comment->body }}</li>
-                                            </ul>
+                                @if (count($post->comments) == 0)
+                                    <div class="flex justify-center">
+                                        <div>
+                                            <p>There are no comments for this post yet.</p>
                                         </div>
-                                        <br>
-                                    @endforeach
-                                </div>
+                                    </div>
+                                @else
+                                    <div class="flex items-center">
+                                        <h2 class="text-lg font-semibold mb-2">Comments</h2>
+                                        <button id="toggle-comments" type="button" class="text-blue-500 font-semibold mb-2 focus:outline-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block transform transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                                                <path x-show="!showComments" class="hidden" fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l5 5a1 1 0 01.293.707V14a1 1 0 01-1 1H6a1 1 0 01-1-1V9.414a1 1 0 01.293-.707l5-5A1 1 0 0110 3zm-1 4.414L6.414 9H9a1 1 0 110 2H5v3a1 1 0 001 1h8a1 1 0 001-1v-3h-3a1 1 0 110-2h2.586L11 7.414a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                <path x-show="showComments" fill-rule="evenodd" d="M4.293 7.293a1 1 0 011.414 0L10 11.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="comments-list" class="invisible flex flex-col">
+                                        @foreach ($post->comments as $comment)
+                                            <div class="p-2 border-solid border-2 rounded border-sky-300">
+                                                <ul>
+                                                    <li>By: <b>{{ $comment->user->name }}</b></li>
+                                                    <li>{{ $comment->body }}</li>
+                                                </ul>
+                                            </div>
+                                            <br>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -85,6 +93,9 @@
         </div>
     </div>
 </div>
+<script>
 
+    
+</script>
 @endsection
 

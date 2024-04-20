@@ -6,7 +6,9 @@ import tailwindcss from 'tailwindcss';
 export default defineConfig({
     plugins: [
         laravel({
-            input: 'resources/js/app.js', // Specify the input JavaScript file
+            input: {
+                app: 'resources/js/app.js'
+            },
         }),
     ],
     css: {
@@ -30,8 +32,6 @@ export default defineConfig({
         },
         cssCodeSplit: {
             filename: 'assets/app.css',
-
-        },    },
+        },
+    },
 });
-
-
