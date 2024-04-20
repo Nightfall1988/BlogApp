@@ -15,7 +15,8 @@
                                     <li class="mb-1 mr-2"> &#x2022; {{ $category->name }}</li>
                                 @endforeach
                             </ul>
-                        </div>                        
+                        </div>
+
                         @if ($post->user->id == Auth::user()->id )
                         <div class="ml-auto flex row items-center">
                             <a href="/edit-post/{{ $post->id }}"><i title="Edit post" class="fas fa-edit fa-lg"></i> </a>&nbsp;&nbsp;

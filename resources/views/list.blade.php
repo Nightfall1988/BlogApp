@@ -18,7 +18,7 @@
                         </thead>
                         <tbody>
                             @foreach ($posts as $post)
-                            <tr class="border-t bg-sky-100 rounded shadow-lg">
+                            <tr class="border-t bg-white rounded shadow-lg">
                                 <td class="px-2 py-2">{{ $post['title'] }}</td>
                                 <td class="px-2 py-2">{{ strlen($post['content']) > 150 ? substr($post['content'], 0, 150) . '...' : $post['content'] }}</td>
                                 <td class="px-2 py-2 w-32">{{ $post->user->name }}</td>
@@ -34,3 +34,14 @@
     </div>
 </div>
 @endsection
+<style>
+    th:nth-child(4), /* Created At column */
+td:nth-child(4),
+th:nth-child(3), /* Author column */
+td:nth-child(3) {
+    width: 181px; /* Adjust as needed */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Display ellipsis for overflow text */
+}
+    </style>

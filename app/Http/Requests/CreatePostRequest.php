@@ -23,6 +23,7 @@ class CreatePostRequest extends FormRequest
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'postId' => 'nullable|integer',
+            'categories' => 'nullable|array'
         ];
     }
 }

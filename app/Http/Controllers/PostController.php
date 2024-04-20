@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Throwable;
 
 class PostController extends Controller
 {
@@ -24,20 +25,32 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with('user')->get();
-        return view('list', ['posts' => $posts]);
+        try {
+            $posts = Post::with('user')->get();
+            return view('list', ['posts' => $posts]);
+        } catch (Throwable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
     }
 
     public function createPost()
     {  
-        return view('add-post');
+        $categories = Category::all();
+        return view('add-post', ['categories' => $categories]);
     }
 
     public function showPost($postId)
     {  
-        $categories = Category::all();
-        $post = Post::with('comments', 'categories')->findOrFail($postId);
-        return view('view-post', ['post' => $post, 'categories' => $categories]);
+        try {
+            $categories = Category::all();
+            $post = Post::with('comments', 'categories')->findOrFail($postId);
+            return view('view-post', ['post' => $post, 'categories' => $categories]);
+        } catch (Throwable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
+
     }
 
     public function store(CreatePostRequest $request)
@@ -49,28 +62,48 @@ class PostController extends Controller
 
     public function update(CreatePostRequest $request) 
     {
-        $post = Post::with('categories')->findOrFail($request->postId);
-        $post->title = $request->title;
-        $post->content = $request->content;
-        $post->save();
-        return  redirect('view-post/' . $request->postId);
+        try {
+            $post = Post::with('categories')->findOrFail($request->postId);
+            $post->title = $request->title;
+            $post->content = $request->content;
+            $post->categories()->attach($request->categories);
+            // $post->categories()->dettach([]); FOR NOT IN THE LIST
+            $post->save();
+            return  redirect('view-post/' . $request->postId);
+        } catch (Trowable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
 
     }
-    public function saveComment(Request $request) {
-        // NEEDS VALIDATION
-        $user = User::where('name', $request->userName)->first();
-        $comment = new Comment;
-        $comment->post_id = $request->postId;
-        $comment->user_id = $user->id;
-        $comment->body = $request->comment;
-        $comment->save();
+    public function saveComment(Request $request) 
+    {
+        try {
+            // NEEDS VALIDATION
+            $user = User::where('name', $request->userName)->first();
+            $comment = new Comment;
+            $comment->post_id = $request->postId;
+            $comment->user_id = $user->id;
+            $comment->body = $request->comment;
+            $comment->save();
+        } catch (Trowable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
         
     }
 
     public function edit($id) {
-        $categories = Category::all();
-        $post = Post::where('id', $id)->first();
-        return view('add-post', ['post' => $post, 'categories' => $categories]);
+
+        try {
+            // NEEDS VALIDATION
+            $categories = Category::all();
+            $post = Post::where('id', $id)->first();
+            return view('add-post', ['post' => $post, 'categories' => $categories]);
+        } catch (Trowable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
     }
 
 

@@ -13,7 +13,7 @@
                     @if(isset($post))
                         @method('PUT')
                     @endif
-                    <div>
+
                         @if(isset($post))
                         <div>
                             <input id="postId" type="hidden" name='postId' value="{{ $post->id }}"></input>
@@ -33,21 +33,37 @@
                             </div>
                         </div>
                     @endif
+                    <input type="hidden" id="selectedCategories" name="selectedCategories">
+
                     @if(isset($post))
 
                     <input id="postId" type="hidden" value="{{ $post->id }}"></input>
                     <div>
-                        <label for="categories" class="block text-gray-700 text-sm font-bold mb-2">Add Category</label>
-                        <select id="categories" name="categories[]" class="appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" multiple>
-                            @foreach ($categories as $category)
+                        <div class="flex">
+                            @foreach($categories as $category)
                                 @unless ($post->categories->contains($category->id))
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <div class="flex items-center cursor-pointer mr-4" onclick="toggleCategory('{{ $category }}')">
+                                        <input type="checkbox" name="categories[]" id="{{ $category }}" value="{{ $category->id }}" class="hidden">
+                                        <label for="{{ $category }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                    </div>
                                 @endunless
                             @endforeach
-                        </select>
+                        </div>
+                    </div>
+                    @else
+                    <div>
+                        <div class="flex">
+                            @foreach($categories as $category)
+                                <div class="flex items-center cursor-pointer mr-4" onclick="toggleCategory('{{ $category }}')">
+                                    <input type="checkbox" name="categories[]" id="{{ $category }}" value="{{ $category->id }}" class="hidden">
+                                    <label for="{{ $category }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                     @endif
-
+                    <br>
+                    <br>
 
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 font-bold">{{ __('Title') }}</label>
@@ -76,3 +92,42 @@
     </div>
 </div>
 @endsection
+<script>
+// import axios from 'axios';
+
+
+function toggleCategory(category) {
+    const checkbox = document.getElementById(category);
+    checkbox.checked = !checkbox.checked;
+    if (checkbox.checked) {
+        checkbox.nextElementSibling.classList.remove('bg-gray-300');
+        checkbox.nextElementSibling.classList.add('bg-blue-500');
+    } else {
+        checkbox.nextElementSibling.classList.remove('bg-blue-500');
+        checkbox.nextElementSibling.classList.add('bg-gray-300');
+    }
+    updateSelectedCategories();
+}
+
+function updateSelectedCategories() {
+    const selectedCategories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+    document.getElementById('selectedCategories').value = JSON.stringify(selectedCategories);
+}
+
+
+// MAKE CATEGORY DELETION
+function removeCategory(postId, categoryIds) {
+    axios.post('/remove-category/' + postId, {
+        category_ids: categoryIds
+    })
+    .then(function(response) {
+        console.log(response.data);
+        alert('Categories removed successfully!');
+        // Optionally, you can update the UI here to reflect the changes
+    })
+    .catch(function(error) {
+        console.error(error);
+        alert('An error occurred while removing categories.');
+    });
+}
+</script>
