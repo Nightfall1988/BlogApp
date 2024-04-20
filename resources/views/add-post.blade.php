@@ -91,19 +91,16 @@
 </div>
 <style>
     <style>
-    /* Hide the default checkbox */
     .category-checkbox {
         @apply hidden;
     }
 
-    /* Style for custom checkbox label */
     .custom-checkbox-label {
-        @apply cursor-pointer inline-block relative pl-7; /* Adjust padding as needed */
+        @apply cursor-pointer inline-block relative pl-7;
     }
 
-    /* Style for custom checkbox */
     .custom-checkbox-label::before {
-        @apply block w-5 h-5 border border-gray-300 rounded transition duration-300; /* Adjust size as needed */
+        @apply block w-5 h-5 border border-gray-300 rounded transition duration-300;
         content: "";
         position: absolute;
         left: 0;
@@ -111,19 +108,16 @@
         transform: translateY(-50%);
     }
 
-    /* Style for custom checkbox when checked */
     .category-checkbox:checked + .custom-checkbox-label::before {
-        @apply bg-blue-500; /* Change color when checked */
+        @apply bg-blue-500;
     }
 
-    /* Style for checkmark icon */
     .custom-checkbox-label::after {
         @apply block content absolute left-1 top-1 w-2 h-2 border-t border-r border-white transform rotate-45 opacity-0 transition duration-300; /* Adjust position and size as needed */
     }
 
-    /* Style for checkmark icon when checked */
     .category-checkbox:checked + .custom-checkbox-label::after {
-        @apply opacity-100; /* Show when checked */
+        @apply opacity-100;
     }
 </style>
 
