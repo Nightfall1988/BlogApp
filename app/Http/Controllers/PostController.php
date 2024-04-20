@@ -116,11 +116,22 @@ class PostController extends Controller
         }
     }
 
-    public function removeCategory($postId, $categoryId) {
+    public function addCategory($postId, $categoryId) {
         try {
             $post = Post::where('id', $postId)->first();
             $post->categories()->attach($categoryId);
             return 1;
+        } catch (Trowable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
+    }
+
+    public function removeCategory($postId, $categoryId) {
+        try {
+            $post = Post::where('id', $postId)->first();
+            $post->categories()->detach($categoryId);
+            return json_encode($post->categories());
         } catch (Trowable $e) {
             // MAKE A PROPER EXCEPTION MESSAGE
             dd($e);

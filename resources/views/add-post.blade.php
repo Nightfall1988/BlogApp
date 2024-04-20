@@ -21,7 +21,7 @@
                                 @foreach ($post->categories as $category)
                                     <div class="flex items-center bg-gray-200 rounded-full px-3 py-1 m-1">
                                         <span>{{ $category->name }}</span>
-                                        <button type="button" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none remove-category" data-post-id="{{ $post->id }}" data-category-ids="{{ $category->id }}">
+                                        <button type="button" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none remove-category" data-postid="{{ $post->id }}" data-categoryid="{{ $category->id }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
