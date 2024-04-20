@@ -29,8 +29,6 @@ function elementExists(elementId) {
         });
     }
 
-    console.log('0');
-
     if (elementExists("category-missing-section")) {
 
         const categories = Array.from(document.querySelectorAll('.category-checkbox'));
@@ -41,28 +39,70 @@ function elementExists(elementId) {
             });
         })
 
-
         function toggleCategory(category) {
 
-        checkbox.checked = !checkbox.checked;
-        if (checkbox.checked) {
-            checkbox.nextElementSibling.classList.remove('bg-gray-300');
-            checkbox.nextElementSibling.classList.add('bg-blue-500');
+        if (category.checked) {
+            category.nextElementSibling.classList.remove('bg-gray-300');
+            category.nextElementSibling.classList.add('bg-blue-500');
         } else {
-            checkbox.nextElementSibling.classList.remove('bg-blue-500');
-            checkbox.nextElementSibling.classList.add('bg-gray-300');
+            category.nextElementSibling.classList.remove('bg-blue-500');
+            category.nextElementSibling.classList.add('bg-gray-300');
         }
-            updateSelectedCategories();
+            updateCategories(category);
         }
 
-        function updateSelectedCategories() {
-            const selectedCategories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
-            document.getElementById('selectedCategories').value = JSON.stringify(selectedCategories);
-            console.log(document.getElementById('selectedCategories').value);
+        function updateCategories(category) {
+            let categoryId = category.id.split('_')[1]
+            let postId = document.getElementById('postId').value
+
+            axios.post('/remove-category/' + postId + '/' + categoryId, {
+                postId: postId,
+                categoryId: categoryId,
+            })
+            .then(function(response) {
+                if (response.data == 1) {
+                    let categoryElement = document.getElementById('cat_' + categoryId).parentNode.parentNode;
+                    let categoryDiv = category.parentNode
+                    if (categoryElement) {
+                        console.log(categoryDiv)
+                        categoryElement.removeChild(categoryDiv);
+                        addCategoryToUI(category.name, categoryId)
+                    }
+                }
+            })
+            .catch(function(error) {
+                console.error(error);
+                alert('An error occurred while removing the category.');
+            });
         }
+
+
+        function addCategoryToUI(categoryName, categoryId) {
+            let newCategoryElement = document.createElement('div');
+            newCategoryElement.classList.add('flex', 'items-center', 'bg-gray-200', 'rounded-full', 'px-3', 'py-1', 'm-1');
         
-        // SOLVE THE toggleCategory AND removeCategory ISSUE
-
+            let categoryNameSpan = document.createElement('span');
+            categoryNameSpan.textContent = categoryName;
+            newCategoryElement.appendChild(categoryNameSpan);
+        
+            let removeButton = document.createElement('button');
+            removeButton.setAttribute('type', 'button');
+            removeButton.classList.add('ml-2', 'text-gray-500', 'hover:text-gray-700', 'focus:outline-none', 'remove-category');
+            removeButton.setAttribute('data-post-id', postId);
+            removeButton.setAttribute('data-category-id', categoryId);
+            removeButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            `;
+            removeButton.addEventListener('click', function() {
+                updateCategories(this);
+            });
+            newCategoryElement.appendChild(removeButton);
+        
+            let categoryList = document.getElementById('category-added-section');
+            categoryList.appendChild(newCategoryElement);
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
     

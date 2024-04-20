@@ -116,4 +116,15 @@ class PostController extends Controller
         }
     }
 
+    public function removeCategory($postId, $categoryId) {
+        try {
+            $post = Post::where('id', $postId)->first();
+            $post->categories()->attach($categoryId);
+            return 1;
+        } catch (Trowable $e) {
+            // MAKE A PROPER EXCEPTION MESSAGE
+            dd($e);
+        }
+    }
+
 }

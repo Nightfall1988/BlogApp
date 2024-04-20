@@ -30,37 +30,36 @@
                                 @endforeach
                             </div>
                         </div>
-                        <br>
+                    <br>
                     @endif
                     <input type="hidden" id="selectedCategories" name="selectedCategories">
 
                     @if(isset($post))
-                    <div  id="category-missing-section">
-                        <div>
+                        <div id="category-missing-section">
                             <div class="flex">
                                 @foreach($categories as $category)
                                     @unless ($post->categories->contains($category->id))
-                                        <div class="flex items-center cursor-pointer mr-4" >
-                                            <input type="checkbox" name="categories[]" id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden category-checkbox">
-                                            <label for="{{ $category }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                        <div class="flex items-center cursor-pointer mr-4">
+                                            <input type="checkbox" name="{{ $category->name }}" id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden category-checkbox">
+                                            <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
                                         </div>
                                     @endunless
                                 @endforeach
                             </div>
                         </div>
-                        @else
+                    @else
                         <div>
                             <div class="flex">
                                 @foreach($categories as $category)
                                     <div class="flex items-center cursor-pointer mr-4s">
-                                        <input type="checkbox" name="categories[]" id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden">
-                                        <label for="{{ $category }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                        <input type="checkbox" name="{{ $category->name }}" id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden">
+                                        <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
-                    </div>
                     @endif
+
                     <br>
                     <br>
 
@@ -90,61 +89,42 @@
         </div>
     </div>
 </div>
-<script>
+<style>
+    <style>
+    /* Hide the default checkbox */
+    .category-checkbox {
+        @apply hidden;
+    }
 
-// const categories = Array.from(document.querySelectorAll('.category-checkbox'));
-//     categories.forEach(category => {
-//         category.addEventListener("click", function() {
-//             toggleCategory(category.id);
-//         });
-//     });
+    /* Style for custom checkbox label */
+    .custom-checkbox-label {
+        @apply cursor-pointer inline-block relative pl-7; /* Adjust padding as needed */
+    }
 
-// function toggleCategory(category) {
-//     category = JSON.parse(category)
-//     const checkbox = document.getElementById('cat_' + category.id);
+    /* Style for custom checkbox */
+    .custom-checkbox-label::before {
+        @apply block w-5 h-5 border border-gray-300 rounded transition duration-300; /* Adjust size as needed */
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-//     checkbox.checked = !checkbox.checked;
-//     if (checkbox.checked) {
-//         checkbox.nextElementSibling.classList.remove('bg-gray-300');
-//         checkbox.nextElementSibling.classList.add('bg-blue-500');
-//     } else {
-//         checkbox.nextElementSibling.classList.remove('bg-blue-500');
-//         checkbox.nextElementSibling.classList.add('bg-gray-300');
-//     }
-//     updateSelectedCategories();
-// }
+    /* Style for custom checkbox when checked */
+    .category-checkbox:checked + .custom-checkbox-label::before {
+        @apply bg-blue-500; /* Change color when checked */
+    }
 
-// function updateSelectedCategories() {
-//     const selectedCategories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
-//     document.getElementById('selectedCategories').value = JSON.stringify(selectedCategories);
-//     console.log(document.getElementById('selectedCategories').value);
-// }
+    /* Style for checkmark icon */
+    .custom-checkbox-label::after {
+        @apply block content absolute left-1 top-1 w-2 h-2 border-t border-r border-white transform rotate-45 opacity-0 transition duration-300; /* Adjust position and size as needed */
+    }
 
-// function removeCategory(postId, categoryId) {
-//     axios.post('/remove-category/' + postId, {
-//         category_ids: [categoryId]
-//     })
-//     .then(function(response) {
-//         console.log(response.data);
-//         alert('Category removed successfully!');
-//         // Optionally, you can update the UI here to reflect the changes
-//     })
-//     .catch(function(error) {
-//         console.error(error);
-//         alert('An error occurred while removing the category.');
-//     });
-// }
+    /* Style for checkmark icon when checked */
+    .category-checkbox:checked + .custom-checkbox-label::after {
+        @apply opacity-100; /* Show when checked */
+    }
+</style>
 
-// document.addEventListener("DOMContentLoaded", () => {
-    
-//     const removeButtons = document.querySelectorAll('.remove-category');
-//     removeButtons.forEach(button => {
-//         button.addEventListener("click", function() {
-//             const postId = button.dataset.postId;
-//             const categoryId = button.dataset.categoryId;
-//             removeCategory(postId, categoryId);
-//         });
-//     });
-// });
-</script>
-@endsection
+</style>
