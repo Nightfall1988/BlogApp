@@ -131,7 +131,7 @@ class PostController extends Controller
         try {
             $post = Post::where('id', $postId)->first();
             $post->categories()->detach($categoryId);
-            return json_encode($post->categories());
+            return json_encode($post->categories);
         } catch (Trowable $e) {
             // MAKE A PROPER EXCEPTION MESSAGE
             dd($e);
