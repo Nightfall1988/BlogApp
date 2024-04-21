@@ -167,8 +167,11 @@ function elementExists(elementId) {
             if (removedCategory) {
                 let categoryElement = 
                 `<div class="flex items-center cursor-pointer mr-4">
-                    <input type="checkbox" name="` +  removedCategory.name + `" id="cat_` +  removedCategory.id + `" value="` +  removedCategory.id + `" class="hidden category-checkbox">
-                    <label for="cat_` +  removedCategory.id + `" class="px-3 py-1 rounded-full bg-sky-300 hover:bg-sky-400">` +  removedCategory.name + `</label>
+                    <input type="checkbox" name="` +  removedCategory.name + 
+                    `" id="cat_` +  removedCategory.id + `" value="` +  removedCategory.id + `" class="hidden category-checkbox">
+                    <label for="cat_` 
+                        +  removedCategory.id + `" class="px-3 py-1 rounded-full bg-sky-300 hover:bg-sky-400">` 
+                        +  removedCategory.name + `</label>
                 </div>`;
 
                 let flexDiv = document.querySelector('#category-missing-section .flex');

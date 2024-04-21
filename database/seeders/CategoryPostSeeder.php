@@ -22,7 +22,7 @@ class CategoryPostSeeder extends Seeder
         $postIds = Post::pluck('id')->toArray();
 
         foreach ($postIds as $postId) {
-            $numberOfCategories = $faker->numberBetween(1, 3);
+            $numberOfCategories = $faker->numberBetween(1, 5);
             $selectedCategoryIds = $faker->randomElements($categoryIds, $numberOfCategories);
 
             foreach ($selectedCategoryIds as $categoryId) {
