@@ -12,7 +12,6 @@
 body {
     font-family: Arial, sans-serif;
 }
-/* Tag-like appearance */
 .form-multiselect {
     background-color: #edf2f7;
   }
@@ -27,62 +26,8 @@ body {
     line-height: 1.25rem;
   }
   
-  /* Tag-like appearance */
   .form-multiselect option:checked {
     background-color: #667eea;
     color: #ffffff;
   }
-  
-// .container {
-//     margin: 20px auto;
-//     background-color: #fff;
-//     border-radius: 8px;
-//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//     padding: 20px;
-// }
-
-// /* Table Styles */
-// table {
-//     width: 100%;
-//     border-collapse: collapse;
-// }
-
-// th, td {
-//     padding: 12px 15px;
-//     text-align: left;
-//     border-bottom: 1px solid #ddd;
-// }
-
-// th {
-//     background-color: #f2f2f2;
-// }
-
-// /* Adjust width for specific columns */
-
-
-// /* Link Styles */
-// a {
-//     color: #007bff;
-//     text-decoration: none;
-// }
-
-// a:hover {
-//     text-decoration: underline;
-// }
-
-// /* Responsive Styles */
-// @media (max-width: 768px) {
-//     .container {
-//         padding: 10px;
-//     }
-
-//     th, td {
-//         padding: 8px 10px;
-//     }
-// }
-
-// .col-md-8 {
-//     flex: 0 0 auto;
-//     /* width: 66.66666667%; */
-// }
-
+ 

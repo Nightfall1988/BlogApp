@@ -34,7 +34,17 @@ function elementExists(elementId) {
         let categories = Array.from(document.querySelectorAll('.category-checkbox'));
             categories.forEach(category => {
                 category.addEventListener("change", function() {
-                    updateCategories(category);
+                    categoryLabel = document.getElementById('cat_' + category.value + '_label');
+
+                    if(elementExists('newPost')) {
+                        if (category.checked) {
+                            categoryLabel.parentNode.classList.add('custom-border');
+                        } else {
+                            categoryLabel.parentNode.classList.remove('custom-border');
+                        }
+                    }
+
+                        updateCategories(category);
                 });
         })
 
@@ -63,7 +73,6 @@ function elementExists(elementId) {
                 });
             } else {
                 updateSelectedCategories()
-                // FOR NEW POST WITH CATEGORIES
             }
 
         }
@@ -73,13 +82,12 @@ function elementExists(elementId) {
             let selectedCategoriesJSON = JSON.stringify(selectedCategories);
             console.log(selectedCategoriesJSON)
             document.getElementById('selectedCategories').value = selectedCategoriesJSON;
-
         }
 
 
         function addCategoryToPost(categoryName, categoryId) {
             let newCategoryElement = document.createElement('div');
-            newCategoryElement.classList.add('flex', 'items-center', 'bg-gray-200', 'rounded-full', 'px-3', 'py-1', 'm-1');
+            newCategoryElement.classList.add('flex', 'items-center', 'bg-sky-200', 'rounded-full', 'px-3', 'py-1', 'm-1');
         
             let categoryNameSpan = document.createElement('span');
             categoryNameSpan.textContent = categoryName;
@@ -111,12 +119,14 @@ function elementExists(elementId) {
 
             removeButtons.forEach(button => {
                 button.addEventListener("click", function() {
-                    let postId = button.dataset.postid; // Changed to postid
+                    let postId = button.dataset.postid;
                     let categoryId = button.dataset.categoryid;
                     removeCategory(postId, categoryId);
                 });
             });
         });
+
+
     }
     
     function removeCategory(postId, categoryId) {
@@ -138,7 +148,7 @@ function elementExists(elementId) {
                 let categoryElement = 
                 `<div class="flex items-center cursor-pointer mr-4">
                     <input type="checkbox" name="` +  removedCategory.name + `" id="cat_` +  removedCategory.id + `" value="` +  removedCategory.id + `" class="hidden category-checkbox">
-                    <label for="cat_` +  removedCategory.id + `" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">` +  removedCategory.name + `</label>
+                    <label for="cat_` +  removedCategory.id + `" class="px-3 py-1 rounded-full bg-sky-300 hover:bg-sky-400">` +  removedCategory.name + `</label>
                 </div>`;
 
                 let flexDiv = document.querySelector('#category-missing-section .flex');
@@ -148,7 +158,7 @@ function elementExists(elementId) {
                 categoryInput.addEventListener("change", function() {
                     updateCategories(categoryInput);
                 });
-            }            
+            }
         })
         .catch(function(error) {
             console.error(error);

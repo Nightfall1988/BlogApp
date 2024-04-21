@@ -31,7 +31,7 @@
                                 <div id="mid-section" class="flex row">
                                     <div>
                                         <p>Author: <b>{{ $post->user->name }}</b></p>
-                                        <input id="userName" type="hidden" value="{{ $post->user->name }}"></input>
+                                        <input id="userName" type="hidden" value="{{ Auth::user()->name }}"></input>
                                         <br>
                                     </div>
                                     <div class="ml-auto">

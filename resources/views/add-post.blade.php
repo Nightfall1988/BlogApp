@@ -16,10 +16,10 @@
                     @if(isset($post))
                         <div>
                             <input id="postId" type="hidden" name="postId" value="{{ $post->id }}">
-                            <h2 class="text-lg font-semibold mb-2">Categories</h2>
+                            <h2 class="text-lg font-semibold mb-2">Post categories</h2>
                             <div class="flex flex-wrap" id="category-added-section">
                                 @foreach ($post->categories as $category)
-                                    <div class="flex items-center bg-gray-200 rounded-full px-3 py-1 m-1">
+                                    <div class="flex items-center bg-sky-200 rounded-full px-3 py-1 m-1">
                                         <span>{{ $category->name }}</span>
                                         <button type="button" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none remove-category" data-postid="{{ $post->id }}" data-categoryid="{{ $category->id }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,24 +36,26 @@
 
                     @if(isset($post))
                         <div id="category-missing-section">
+                            <h2 class="text-base font-semibold mb-2">Other available categories:</h2>
                             <div class="flex">
                                 @foreach($categories as $category)
                                     @unless ($post->categories->contains($category->id))
-                                        <div class="flex items-center cursor-pointer mr-4">
+                                        <div class="flex items-center cursor-pointer mr-4 rounded-full">
                                             <input type="checkbox" name="{{ $category->name }}" id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden category-checkbox">
-                                            <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                            <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-sky-300 hover:bg-sky-400">{{ $category->name }}</label>
                                         </div>
                                     @endunless
                                 @endforeach
                             </div>
                         </div>
                     @else
+                    <input class="hidden" id="newPost"></input>
                     <div id="category-missing-section">
                         <div class="flex">
                             @foreach($categories as $category)
-                                <div class="flex items-center cursor-pointer mr-4">
+                                <div class="flex items-center cursor-pointer mr-4 rounded-full">
                                     <input type="checkbox"  id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden category-checkbox">
-                                    <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                    <label for="cat_{{ $category->id }}" id="cat_{{ $category->id }}_label" class="px-3 py-1 rounded-full bg-sky-300 hover:bg-sky-400">{{ $category->name }}</label>
                                 </div>
                             @endforeach
                         </div>
@@ -89,6 +91,7 @@
         </div>
     </div>
 </div>
+@endsection
 <style>
     <style>
     .category-checkbox {
@@ -118,5 +121,11 @@
 
     .category-checkbox:checked + .custom-checkbox-label::after {
         @apply opacity-100;
+    }
+
+    .custom-border {
+        border-width: 3px;
+        border-color: black;
+        border-style: solid;
     }
 </style>

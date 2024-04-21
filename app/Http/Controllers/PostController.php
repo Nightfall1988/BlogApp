@@ -66,7 +66,6 @@ class PostController extends Controller
             $post->title = $request->title;
             $post->content = $request->content;
             $post->categories()->attach($request->categories);
-            // $post->categories()->dettach([]); FOR NOT IN THE LIST
             $post->save();
             return  redirect('view-post/' . $request->postId);
         } catch (Trowable $e) {
