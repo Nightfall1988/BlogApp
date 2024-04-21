@@ -7,6 +7,7 @@
         <div class="w-full">
             <div class="bg-white shadow-md rounded-lg mb-4">
                 <form class="p-4">
+                    @csrf
                     <div class="flex row">
                         <div>
                             <h2 class="text-lg font-semibold mb-2">Categories</h2>
