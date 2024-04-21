@@ -20,6 +20,5 @@ class PostService
         foreach ($selectedCategories as $categoryId) {
             $post->categories()->attach($categoryId);
         }
-
     }
 }
