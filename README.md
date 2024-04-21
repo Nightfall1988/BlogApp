@@ -21,8 +21,9 @@
 
 5. Make a migration by entering <b>php artisan migrate</b> command
 
-6. Seed the database with test data <b>php artisan db:seed</b> to login into application, or Register in an application use any of the accounts in the <i>users</i> table
+6. Seed the database with test data: <b>php artisan db:seed</b> to login into application use any of the accounts in the <i>users</i> table
+ or Register in an application
 
-7. Run <b>npm run build && npm run dev</b> command to compile front-end assets
+8. Run <b>npm run build && npm run dev</b> command to compile front-end assets
 
-8. Run <b>php artisan serv</b> to start the server
+9. Run <b>php artisan serv</b> to start the server
