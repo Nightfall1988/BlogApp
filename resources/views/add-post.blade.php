@@ -48,16 +48,16 @@
                             </div>
                         </div>
                     @else
-                        <div>
-                            <div class="flex">
-                                @foreach($categories as $category)
-                                    <div class="flex items-center cursor-pointer mr-4s">
-                                        <input type="checkbox" name="{{ $category->name }}" id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden">
-                                        <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
+                    <div id="category-missing-section">
+                        <div class="flex">
+                            @foreach($categories as $category)
+                                <div class="flex items-center cursor-pointer mr-4">
+                                    <input type="checkbox"  id="cat_{{ $category->id }}" value="{{ $category->id }}" class="hidden category-checkbox">
+                                    <label for="cat_{{ $category->id }}" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">{{ $category->name }}</label>
+                                </div>
+                            @endforeach
                         </div>
+                    </div>
                     @endif
 
                     <br>
@@ -119,6 +119,4 @@
     .category-checkbox:checked + .custom-checkbox-label::after {
         @apply opacity-100;
     }
-</style>
-
 </style>

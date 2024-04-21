@@ -54,8 +54,7 @@ class PostController extends Controller
     }
 
     public function store(CreatePostRequest $request)
-    {   
-        // NEEDS VALIDATION
+    {           
         $this->postService->store($request);
         return redirect()->route('list');
     }
@@ -131,7 +130,7 @@ class PostController extends Controller
         try {
             $post = Post::where('id', $postId)->first();
             $post->categories()->detach($categoryId);
-            return json_encode($post->categories);
+            return json_encode(['postcategories' => $post->categories, 'allcategories' => Category::all()]);
         } catch (Trowable $e) {
             // MAKE A PROPER EXCEPTION MESSAGE
             dd($e);

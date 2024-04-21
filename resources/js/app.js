@@ -15,7 +15,7 @@ function elementExists(elementId) {
         buttonDelete.addEventListener("click", deletePost, false);
     }
 
-    if (elementExists("delete-bttn")) {
+    if (elementExists("comments-list")) {
         document.addEventListener('DOMContentLoaded', function() {
             const toggleCommentsBtn = document.getElementById('toggle-comments');
             const commentsList = document.getElementById('comments-list');
@@ -31,8 +31,7 @@ function elementExists(elementId) {
 
     if (elementExists("category-missing-section")) {
 
-        const categories = Array.from(document.querySelectorAll('.category-checkbox'));
-
+        let categories = Array.from(document.querySelectorAll('.category-checkbox'));
             categories.forEach(category => {
                 category.addEventListener("change", function() {
                     updateCategories(category);
@@ -40,29 +39,43 @@ function elementExists(elementId) {
         })
 
         function updateCategories(category) {
-            let categoryId = category.id.split('_')[1]
-            let postId = document.getElementById('postId').value
+                let categoryId = category.id.split('_')[1]
+                if (elementExists('postId')) {
+                let postId = document.getElementById('postId').value
 
-            axios.post('/add-category/' + postId + '/' + categoryId, {
-                postId: postId,
-                categoryId: categoryId,
-            })
-            .then(function(response) {
-                if (response.data == 1) {
-                    let categoryElement = document.getElementById('cat_' + categoryId).parentNode.parentNode;
-                    let categoryDiv = category.parentNode
-                    if (categoryElement) {
-                        console.log(categoryDiv)
-                        categoryElement.removeChild(categoryDiv);
-                        addCategoryToPost(category.name, categoryId)
+                axios.post('/add-category/' + postId + '/' + categoryId, {
+                    postId: postId,
+                    categoryId: categoryId,
+                })
+                .then(function(response) {
+                    if (response.data == 1) {
+                        let categoryElement = document.getElementById('cat_' + categoryId).parentNode.parentNode;
+                        let categoryDiv = category.parentNode
+                        if (categoryElement) {
+                            categoryElement.removeChild(categoryDiv);
+                            addCategoryToPost(category.name, categoryId)
+                        }
                     }
-                }
-            })
-            .catch(function(error) {
-                console.error(error);
-                alert('An error occurred while removing the category.');
-            });
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    alert('An error occurred while removing the category.');
+                });
+            } else {
+                updateSelectedCategories()
+                // FOR NEW POST WITH CATEGORIES
+            }
+
         }
+
+        function updateSelectedCategories() {
+            let selectedCategories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+            let selectedCategoriesJSON = JSON.stringify(selectedCategories);
+            console.log(selectedCategoriesJSON)
+            document.getElementById('selectedCategories').value = selectedCategoriesJSON;
+
+        }
+
 
         function addCategoryToPost(categoryName, categoryId) {
             let newCategoryElement = document.createElement('div');
@@ -71,20 +84,21 @@ function elementExists(elementId) {
             let categoryNameSpan = document.createElement('span');
             categoryNameSpan.textContent = categoryName;
             newCategoryElement.appendChild(categoryNameSpan);
-        
+
             let removeButton = document.createElement('button');
             removeButton.setAttribute('type', 'button');
             removeButton.classList.add('ml-2', 'text-gray-500', 'hover:text-gray-700', 'focus:outline-none', 'remove-category');
-            removeButton.setAttribute('data-post-id', postId);
-            removeButton.setAttribute('data-category-id', categoryId);
+            removeButton.setAttribute('data-postid', postId);
+            removeButton.setAttribute('data-categoryid', categoryId);
             removeButton.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             `;
             removeButton.addEventListener('click', function() {
-                updateCategories(this);
+                removeCategory(postId.value, categoryId);
             });
+
             newCategoryElement.appendChild(removeButton);
         
             let categoryList = document.getElementById('category-added-section');
@@ -94,6 +108,7 @@ function elementExists(elementId) {
         document.addEventListener("DOMContentLoaded", () => {
     
             const removeButtons = document.querySelectorAll('.remove-category');
+
             removeButtons.forEach(button => {
                 button.addEventListener("click", function() {
                     let postId = button.dataset.postid; // Changed to postid
@@ -105,22 +120,42 @@ function elementExists(elementId) {
     }
     
     function removeCategory(postId, categoryId) {
+
         axios.post('/remove-category/' + postId + '/' + categoryId, {
             categoryId: categoryId
         })
         .then(function(response) {
-            console.log(response.data);
+            let removedCategory = response.data.allcategories.find(category => category.id == categoryId);
 
-            // METHOD TO PULL FROM POST CATEGORIES AND PUT TO NON-POST CATEGORIES LIST 
-            addCategoryToSelection()
-            
-            alert('Category removed successfully!');
+            let categoryAddedSection = document.getElementById('category-added-section');
+
+            let categoryToRemove = categoryAddedSection.querySelector(`[data-categoryid="${categoryId}"]`);
+            if (categoryToRemove) {
+                categoryToRemove.parentNode.remove();
+            }
+    
+            if (removedCategory) {
+                let categoryElement = 
+                `<div class="flex items-center cursor-pointer mr-4">
+                    <input type="checkbox" name="` +  removedCategory.name + `" id="cat_` +  removedCategory.id + `" value="` +  removedCategory.id + `" class="hidden category-checkbox">
+                    <label for="cat_` +  removedCategory.id + `" class="px-3 py-1 rounded-full bg-gray-300 hover:bg-gray-400">` +  removedCategory.name + `</label>
+                </div>`;
+
+                let flexDiv = document.querySelector('#category-missing-section .flex');
+                flexDiv.insertAdjacentHTML('beforeend', categoryElement);
+
+                let categoryInput = document.getElementById('cat_'  +  removedCategory.id)
+                categoryInput.addEventListener("change", function() {
+                    updateCategories(categoryInput);
+                });
+            }            
         })
         .catch(function(error) {
             console.error(error);
             alert('An error occurred while removing the category.');
         });
     }
+
     function buttonClick(event) {
         event.preventDefault();
         let comment = document.getElementById("comment").value;

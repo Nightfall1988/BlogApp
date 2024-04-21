@@ -9,10 +9,17 @@ class PostService
 {
     public function store($request)
     {
-        Post::create([
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
-            'user_id' => Auth::user()->id
-        ]);
+        $selectedCategories = json_decode($request->selectedCategories);
+
+        $post = new Post;
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->user_id = Auth::user()->id;
+        $post->save();
+
+        foreach ($selectedCategories as $categoryId) {
+            $post->categories()->attach($categoryId);
+        }
+
     }
 }
