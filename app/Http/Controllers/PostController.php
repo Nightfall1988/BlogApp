@@ -14,77 +14,90 @@ use Throwable;
 
 class PostController extends Controller
 {
-    private PostService $postService;
+    private PostService $service;
 
     public function __construct(PostService $postService)
     {
-        $this->postService = $postService;
+        $this->service = $postService;
     }
 
     public function index()
     {
         try {
-            $posts = Post::with('user')->get();
+            $posts = $this->service->getAllPosts();
             return view('list', ['posts' => $posts]);
         } catch (Throwable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
+            abort(500, 'Server Error');
+        }
+    }
+    
+
+    public function create()
+    {  
+        try {
+            $categories = $this->service->getAllCategories();
+            return view('add-post', ['categories' => $categories]); 
+        } catch (Throwable $e) {
+            abort(500, 'Server Error');
         }
     }
 
-    public function createPost()
-    {  
-        $categories = Category::all();
-        return view('add-post', ['categories' => $categories]);
-    }
-
-    public function showPost($postId)
+    public function show($postId)
     {  
         try {
-            $categories = Category::all();
-            $post = Post::with('comments', 'categories')->findOrFail($postId);
+            $categories = $this->service->getAllCategories();
+            $post = $this->service->findPost($postId);
             return view('view-post', ['post' => $post, 'categories' => $categories]);
         } catch (Throwable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
+            abort(500, 'Server Error');
         }
 
     }
 
     public function store(CreatePostRequest $request)
     {           
-        $this->postService->store($request);
+        $this->service->store($request);
         return redirect()->route('list');
     }
 
     public function update(CreatePostRequest $request) 
     {
         try {
-            $post = Post::with('categories')->findOrFail($request->postId);
-            $post->title = $request->title;
-            $post->content = $request->content;
-            $post->categories()->attach($request->categories);
-            $post->save();
+            $this->service->updatePost($request);
             return  redirect('view-post/' . $request->postId);
-        } catch (Trowable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
+        } catch (Throwable $e) {
+            abort(500, 'Server Error');
         }
+    }
 
+    public function edit($id) 
+    {
+        try {
+            $data = $this->service->editPost($id);
+            $post = $data[0];
+            $categories = $data[1];
+            return view('add-post', ['post' => $post, 'categories' => $categories]);
+        } catch (Throwable $e) {
+            abort(500, 'Server Error');
+        }
+    }
+
+
+    public function delete($id)
+    {
+        if ($this->service->deletePost($id)) {
+            return 1;
+        } else {
+            return 'error';
+        }
     }
 
     public function saveComment(CreateCommentRequest $request) 
     {
         try {
-            $user = User::where('name', $request->userName)->first();
-            $comment = new Comment;
-            $comment->post_id = $request->postId;
-            $comment->user_id = $user->id;
-            $comment->body = $request->comment;
-            $comment->save();
-        } catch (Trowable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
+            $this->service->saveComment($request);
+        } catch (Throwable $e) {
+            abort(500, 'Server Error');
         }
         
     }
@@ -98,48 +111,21 @@ class PostController extends Controller
         }
     }
 
-    public function edit($id) {
-
-        try {
-            // NEEDS VALIDATION
-            $categories = Category::all();
-            $post = Post::where('id', $id)->first();
-            return view('add-post', ['post' => $post, 'categories' => $categories]);
-        } catch (Trowable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
-        }
-    }
-
-
-    public function delete($id) {
-        
-        if (Post::destroy($id)) {
-            return 1;
-        } else {
-            return 'error';
-        }
-    }
-
     public function addCategory($postId, $categoryId) {
         try {
-            $post = Post::where('id', $postId)->first();
-            $post->categories()->attach($categoryId);
+            $post = $this->service->addCategoryToPost($postId, $categoryId);
             return 1;
-        } catch (Trowable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
+        } catch (Throwable $e) {
+            abort(500, 'Server Error');
         }
     }
 
     public function removeCategory($postId, $categoryId) {
         try {
-            $post = Post::where('id', $postId)->first();
-            $post->categories()->detach($categoryId);
-            return json_encode(['postcategories' => $post->categories, 'allcategories' => Category::all()]);
-        } catch (Trowable $e) {
-            // MAKE A PROPER EXCEPTION MESSAGE
-            dd($e);
+            $post = $this->service->removeCategoryFromPost($postId, $categoryId);
+            return json_encode(['postcategories' => $post->categories, 'allcategories' => $this->service->getAllCategories()]);
+        } catch (Throwable $e) {
+            abort(500, 'Server Error');
         }
     }
 

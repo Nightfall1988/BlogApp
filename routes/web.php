@@ -22,9 +22,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [PostController::class, 'index'])->name('list')->middleware('auth');
-Route::get('/create-post', [PostController::class, 'createPost'])->name('post.create')->middleware('auth');
+Route::get('/create-post', [PostController::class, 'create'])->name('post.create')->middleware('auth');
 Route::post('/save-post', [PostController::class, 'store'])->name('post.store')->middleware('auth');
-Route::get('/view-post/{id}', [PostController::class, 'showPost'])->name('post.show')->middleware('auth');
+Route::get('/view-post/{id}', [PostController::class, 'show'])->name('post.show')->middleware('auth');
 Route::post('/save-comment', [PostController::class, 'saveComment'])->name('comment.save')->middleware('auth');
 Route::get('/edit-post/{id}', [PostController::class, 'edit'])->name('post.edit')->middleware(['auth', 'post.access']);
 Route::put('/edit-post/{id}', [PostController::class, 'update'])->name('post.update')->middleware(['auth', 'post.access']);
