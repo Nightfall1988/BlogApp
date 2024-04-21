@@ -29,5 +29,6 @@ Route::post('/save-comment', [PostController::class, 'saveComment'])->name('comm
 Route::get('/edit-post/{id}', [PostController::class, 'edit'])->name('post.edit')->middleware(['auth', 'post.access']);
 Route::put('/edit-post/{id}', [PostController::class, 'update'])->name('post.update')->middleware(['auth', 'post.access']);
 Route::post('/delete-post/{id}', [PostController::class, 'delete'])->name('post.delete')->middleware(['auth', 'post.access']);
+Route::post('/delete-comment/{id}', [PostController::class, 'deleteComment'])->name('comment.delete')->middleware(['auth']);
 Route::post('/add-category/{postId}/{categoryId}', [PostController::class, 'addCategory'])->name('category.add')->middleware(['auth']);
 Route::post('/remove-category/{postId}/{categoryId}', [PostController::class, 'removeCategory'])->name('category.remove')->middleware(['auth']);

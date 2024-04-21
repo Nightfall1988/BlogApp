@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
-use App\Http\Services\CommentService;
+use App\Http\Requests\CreateCommentRequest;
 use App\Http\Services\PostService;
 use App\Models\Post;
 use App\Models\Comment;
@@ -15,12 +15,10 @@ use Throwable;
 class PostController extends Controller
 {
     private PostService $postService;
-    private CommentService $commentService;
 
-    public function __construct(PostService $postService, CommentService $commentService)
+    public function __construct(PostService $postService)
     {
         $this->postService = $postService;
-        $this->commentService = $commentService;
     }
 
     public function index()
@@ -74,10 +72,10 @@ class PostController extends Controller
         }
 
     }
-    public function saveComment(Request $request) 
+
+    public function saveComment(CreateCommentRequest $request) 
     {
         try {
-            // NEEDS VALIDATION
             $user = User::where('name', $request->userName)->first();
             $comment = new Comment;
             $comment->post_id = $request->postId;
@@ -89,6 +87,15 @@ class PostController extends Controller
             dd($e);
         }
         
+    }
+
+    public function deleteComment($id)
+    {
+        if (Comment::destroy($id)) {
+            return 1;
+        } else {
+            return 'error';
+        }
     }
 
     public function edit($id) {

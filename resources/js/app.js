@@ -125,10 +125,30 @@ function elementExists(elementId) {
                 });
             });
         });
-
-
     }
-    
+
+    if (elementExists("submit-bttn")) {
+        document.addEventListener("DOMContentLoaded", () => {
+            const deleteButtons = document.querySelectorAll('.tw-delete-comment-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const commentId = button.dataset.commentid;
+                    deleteComment(commentId);
+                });
+            });
+        });
+    }
+
+    async function deleteComment(commentId) {
+        if (window.confirm("Are you sure want to delete this comment?")) {
+            const response = await axios.post('/delete-comment/' + commentId);
+            if (response.data == 1) {
+                alert('Comment deleted');
+                window.location.reload()
+            }
+        }
+    }
+
     function removeCategory(postId, categoryId) {
 
         axios.post('/remove-category/' + postId + '/' + categoryId, {

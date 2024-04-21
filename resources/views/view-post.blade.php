@@ -75,7 +75,12 @@
                                     
                                     <div id="comments-list" class="invisible flex flex-col">
                                         @foreach ($post->comments as $comment)
-                                            <div class="p-2 border-solid border-2 rounded border-sky-300">
+                                            <div class="relative p-2 border-solid border-2 rounded border-sky-300">
+                                                @if ($comment->user_id === auth()->id())
+                                                    <button type="button" class="tw-delete-comment-btn absolute pr-1 top-0 right-0 rounded-full" data-commentid="{{ $comment->id }}" title="Delete your comment">
+                                                        <i class="fas fa-ban text-red"></i>
+                                                    </button>
+                                                @endif
                                                 <ul>
                                                     <li>By: <b>{{ $comment->user->name }}</b></li>
                                                     <li>{{ $comment->body }}</li>
