@@ -54,7 +54,7 @@
                                 <textarea id="comment" name="comment" class="w-full border border-gray-300 rounded-md p-2"></textarea>
                                 <br>
                                 <br>
-                                <button id="submit-bttn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md ml-2">Submit Comment</button>
+                                <button id="submit-bttn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit Comment</button>
                             </div>
                             <div>
                                 @if (count($post->comments) == 0)
