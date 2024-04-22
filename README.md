@@ -27,5 +27,7 @@
  or Register in an application
 
 8. Run <b>npm run build && npm run dev</b> command to compile front-end assets
+ 
+9. Run <b>php artisan key:generate</b>
 
-9. Run <b>php artisan serv</b> to start the server
+10. Run <b>php artisan serv</b> to start the server
